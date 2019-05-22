@@ -1,58 +1,44 @@
 <template>
   <div id="app">
+
+    <div>
+      <b-navbar toggleable="lg" type="dark" variant="primary">
+        <b-navbar-brand to="/">Reon</b-navbar-brand>
+        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+          <b-collapse id="nav-collapse" is-nav>
+            <b-navbar-nav>
+              <b-nav-form>
+                <b-form-input size="sm" class="mr-sm-2" placeholder="Buscar"></b-form-input>
+                <b-button size="sm" class="my-2 my-sm-0" type="submit">Buscar</b-button>
+              </b-nav-form>
   
-    <nav class="navbar is-link" role="navigation" aria-label="main navigation">
-      <div class="navbar-brand">
-        <router-link class="navbar-item" to="/">
-          <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
-        </router-link>
-    
-        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
-          data-target="navbarBasicExample">
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </a>
-      </div>
-    
-      <div id="navbarBasicExample" class="navbar-menu">
-        <div class="navbar-start">
+              <b-nav-item v-if="!user" to="/">Inicio</b-nav-item>
+              <b-nav-item v-else to="/dashboard">Inicio</b-nav-item>
 
-          <router-link class="navbar-item" to="/" v-if="!user">Inicio</router-link>
-          <router-link class="navbar-item" to="/dashboard" v-else>Inicio</router-link>
-  
-          <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link">Más</a>
-    
-            <div class="navbar-dropdown">
-              <router-link class="navbar-item" to="/about">Acerca</router-link>
-              <a class="navbar-item">Contacto</a>
-            </div>
-          </div>
-        </div>
-    
-        <div class="navbar-end">
+            </b-navbar-nav>
 
-          <div class="navbar-item" v-if="!user">
-            <div class="buttons">
-              <router-link class="button is-info" to="/register">Registro</router-link>
-              <router-link class="button is-light" to="/login">Ingresar</router-link>
-            </div>
-          </div>
+            <!-- Right aligned nav items -->
+            <b-navbar-nav class="ml-auto">
 
-          <div class="navbar-item has-dropdown is-hoverable" v-else>
-            <a class="navbar-link" style="min-width:180px;">{{this.user.first_name}} {{this.user.last_name}}</a>
-    
-            <div class="navbar-dropdown">
-              <router-link class="navbar-item" to="/profile">Perfil</router-link>
-              <a class="navbar-item" @click="logout">Cerrar Sesión</a>
-            </div>
-          </div>
+              <img v-if="user" class="miniatura" src="https://pbs.twimg.com/profile_images/846659478120366082/K-kZVvT8_400x400.jpg" alt="">
+              <b-nav-item-dropdown v-if="user" :text="user.first_name" right>
+                <b-dropdown-item to="/profile"><ui-icon icon="account_circle"></ui-icon> Perfil</b-dropdown-item>
 
-          </div>
+                <b-dropdown-item v-if="user.type == 1" to="/profile"><ui-icon icon="list_alt"></ui-icon> Lista de Repuestos</b-dropdown-item>
+                <b-dropdown-item v-if="user.type == 2" to="/products"><ui-icon icon="build"></ui-icon> Mis Repuestos</b-dropdown-item>
 
-        </div>
-    </nav>
+                <b-dropdown-item @click="logout"><ui-icon icon="power_settings_new"></ui-icon> Cerrar Sesión</b-dropdown-item>
+              </b-nav-item-dropdown>
+
+              <b-button size="sm" v-if="!user" to="/register" class="my-2 my-sm-0">Registro</b-button>
+              <b-button size="sm" v-if="!user" to="/login" class="my-2 my-sm-0">Ingresar</b-button>
+
+            </b-navbar-nav>
+          </b-collapse>
+
+      </b-navbar>
+    </div>
 
     <transition name="fade" mode="out-in">
       <router-view />
@@ -67,7 +53,8 @@ import router from "@/router.js";
 export default {
   data: function(){
     return {
-      user: {}
+      user: {},
+      nombre: ""
     }
   },
   beforeMount: function(){
@@ -96,14 +83,14 @@ export default {
 
 
 <style>
-@import "~bulma/css/bulma.css";
+
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
 
-html {
+html,body {
   font-size: 100%;
 }
 
@@ -127,4 +114,22 @@ html {
   opacity: 0
 }
 
+.ui-textbox__label-text{
+  text-align: left!important;
+}
+
+.form{
+  padding: 25px;
+  border-radius: 0.5em;
+}
+.padding{
+  padding:1em;
+}
+.margin{
+  margin:1em;
+}
+.miniatura{
+  width:40px;
+  height: 100%;
+}
 </style>

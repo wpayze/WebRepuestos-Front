@@ -1,14 +1,10 @@
 <template>
-    <div class="container">
-        <div class="columns">
-            <div class="column">
-                <h1>{{user.first_name}} {{user.last_name}}</h1>
-            </div>
-            <div class="column">
-                <h1>hola</h1>
-            </div>
-        </div>
+<section>
+    <div class="container padding">
+        
     </div>
+</section>
+    
 </template>
 
 <script>
@@ -29,16 +25,7 @@ export default {
 </script>
 
 <style scoped>
-    html{
-        background:#f2f2f2;
-    }
-    .columns{
-        margin: 0;
-    }
-    .column{
-        background: #5BC0DE;
-        border-radius: 1em;
-        padding: 1em;
-        margin:2em;
+    .profile{
+        background: #2880e3;
     }
 </style>

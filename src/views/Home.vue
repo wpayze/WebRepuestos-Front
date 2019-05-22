@@ -5,23 +5,25 @@
       <h2>En poco tiempo</h2> -->
     </div>
 
-    <div class="columns features">
-      <div class="column">
-        <ui-icon icon="schedule"></ui-icon>
-        <h2>Ahorre tiempo</h2>
-        <p>Navegue entre cientos de repuestos hasta encontrar el que usted necesita rápidamente.</p>
-      </div>
-      <div class="column">
-        <ui-icon icon="verified_user"></ui-icon>
-        <h2>Plataforma Segura</h2>
-        <p>Descubra vendedores y técnicos certificados para dar solución a sus reparaciones.</p>
-      </div>
-      <div class="column">
-        <ui-icon icon="desktop_mac"></ui-icon>
-        <h2>En la Nube</h2>
-        <p>Acceda desde cualquier dispositivo y desde cualquier lugar.</p>
-      </div>
-    </div>
+    <b-container>
+      <b-row class="features">
+        <b-col class="feature">
+          <ui-icon icon="schedule"></ui-icon>
+          <h2>Ahorre tiempo</h2>
+          <p>Navegue entre cientos de repuestos hasta encontrar el que usted necesita rápidamente.</p>
+        </b-col>
+        <b-col class="feature">
+          <ui-icon icon="verified_user"></ui-icon>
+          <h2>Plataforma Segura</h2>
+          <p>Descubra vendedores y técnicos certificados para dar solución a sus reparaciones.</p>
+        </b-col>
+        <b-col class="feature">
+          <ui-icon icon="desktop_mac"></ui-icon>
+          <h2>En la Nube</h2>
+          <p>Acceda desde cualquier dispositivo y desde cualquier lugar.</p>
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
 
@@ -50,20 +52,16 @@ export default {
 }
 
 .features{
-  margin-top: 1em;
-}
-.features .column{
-  background:#2ca081;
-  border-radius: 1em;
-  margin: 0 50px;
   padding: 1em;
 }
-.features .column h2{
+
+.feature{
+  background: #2880e3;
   color: #fff;
-  font-size:18px;
+  border-radius: 1em;
+  margin: 1em;
+  padding:1em;
 }
-.features .column p{
-  color:#fff;
-  font-size:14px;
-}
+
+
 </style>
