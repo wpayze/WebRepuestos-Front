@@ -1,6 +1,10 @@
 <template>
     <div class="container padding">
         <div class="row">
+            <ui-alert @dismiss="success = false" type="success" v-show="success">
+                {{msg_success}}
+            </ui-alert>
+            
             <div class="col-md-6"><h1>Mis Productos</h1></div>
             <div class="col-md-6"><ui-button color="primary" @click="openModal('createProduct')" icon="add">Agregar</ui-button></div>
         </div>
@@ -22,8 +26,11 @@
                     {{product.location}}
                     {{product.price}}
                     </b-card-text>
-
-                    <b-button href="#" variant="primary">Go somewhere</b-button>
+                    <router-link :to="'/product/'+product._id">
+                        <ui-button raised color="primary" size="small" type="secondary">
+                            Repuesto
+                        </ui-button>
+                    </router-link>
                 </b-card>
             </b-col>
         </b-row>
@@ -31,9 +38,6 @@
     <ui-modal ref="createProduct" title="Nuevo Repuesto">
         <ui-alert @dismiss="error_alert = false" type="error" v-show="error_alert">
           {{error}}
-        </ui-alert>
-        <ui-alert @dismiss="success = false" type="success" v-show="success">
-            {{msg_success}}
         </ui-alert>
 
         <ui-textbox label="Nombre" v-model="name"></ui-textbox>
@@ -59,6 +63,7 @@
 </template>
 
 <script>
+
 export default {
     data: function(){
         return {
@@ -75,18 +80,17 @@ export default {
         }
     },
     mounted(){
+        var vm = this;
         this.axios.get(process.env.VUE_APP_PRODUCT,
             {
                 headers: {
                     "Content-Type"   : "application/json",
                     "Authorization"  : localStorage.getItem('token')
-                },
+                }
             })
             .then(function (response) {
                 if (response.data.length > 0){
-                    console.log(response.data);
-                    this.products = response.data;
-                    
+                    vm.products = response.data;
                 }
             })
             .catch(function (error) {
@@ -101,6 +105,9 @@ export default {
             this.$refs[ref].close();
         },
         checkForm(){
+            this.error="";
+            this.error_alert = false;
+
             if (this.name == "" || this.price == ""){
                 this.error = "Por favor completar los campos requeridos.";
                 this.error_alert = true;
@@ -117,6 +124,7 @@ export default {
                 is_active: this.is_active
             }
 
+            var vm = this;
             //Validacion superada
             this.axios.post(process.env.VUE_APP_PRODUCT, datos,
             {
@@ -128,13 +136,21 @@ export default {
             .then(function (response) {
 
                 if (response.data.success){
-                    this.msg_success = response.data.msg;
-                    this.success = true;
-                    getProducts();
+                    vm.msg_success = response.data.msg;
+                    vm.success = true;
+                    vm.getProducts();
+
+                    vm.name = "";
+                    vm.description = "";
+                    vm.location = "";
+                    vm.price = "";
+                    vm.is_active = false;
+                    
+                    vm.closeModal('createProduct');
+                    
                 }else{
-                    this.error = response.data.msg;
-                    this.error_alert = true;
-                    console.log(this.error);
+                    vm.error = response.data.msg;
+                    vm.error_alert = true;
                 }
                 
             })
@@ -144,6 +160,7 @@ export default {
 
         },
         getProducts(){
+            var vm = this;
             this.axios.get(process.env.VUE_APP_PRODUCT,
             {
                 headers: {
@@ -152,7 +169,7 @@ export default {
                 },
             })
             .then(function (response) {
-                this.products = response.data;
+                vm.products = response.data;
             })
             .catch(function (error) {
                 console.log(error);
@@ -164,5 +181,11 @@ export default {
 </script>
 
 <style scoped>
-
+    .card-title{
+        text-align: left;
+    }
+    .card-text{
+        text-align: left;
+        font-size: 13px;
+    }
 </style>

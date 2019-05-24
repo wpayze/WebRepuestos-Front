@@ -23,7 +23,7 @@
 
               <img v-if="user" class="miniatura" src="https://pbs.twimg.com/profile_images/846659478120366082/K-kZVvT8_400x400.jpg" alt="">
               <b-nav-item-dropdown v-if="user" :text="user.first_name" right>
-                <b-dropdown-item to="/profile"><ui-icon icon="account_circle"></ui-icon> Perfil</b-dropdown-item>
+                <b-dropdown-item :to="'/profile/'+user._id"><ui-icon icon="account_circle"></ui-icon> Perfil</b-dropdown-item>
 
                 <b-dropdown-item v-if="user.type == 1" to="/profile"><ui-icon icon="list_alt"></ui-icon> Lista de Repuestos</b-dropdown-item>
                 <b-dropdown-item v-if="user.type == 2" to="/products"><ui-icon icon="build"></ui-icon> Mis Repuestos</b-dropdown-item>
@@ -98,7 +98,6 @@ html,body {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
 }
 
@@ -131,5 +130,8 @@ html,body {
 .miniatura{
   width:40px;
   height: 100%;
+}
+.center{
+  text-align: center;
 }
 </style>

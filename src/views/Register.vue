@@ -137,6 +137,7 @@ export default {
             return false;
         }
 
+        var vm  = this;
         //Validacion superada
         this.axios.post(process.env.VUE_APP_REGISTER, {
             first_name: this.first_name,
@@ -150,6 +151,9 @@ export default {
         .then(function (response) {
             if (response.data.success == true){
                 router.push('/login');
+            }else{
+                vm.error = response.data.msg;
+                vm.error_alert = true;
             }
         })
         .catch(function (error) {

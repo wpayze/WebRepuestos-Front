@@ -39,7 +39,7 @@ export default new Router({
                 import ("./views/Dashboard.vue")
         },
         {
-            path: "/profile",
+            path: "/profile/:id",
             name: "profile",
             component: () =>
                 import ("./views/Profile.vue")
@@ -49,6 +49,12 @@ export default new Router({
             name: "products",
             component: () =>
                 import ("./views/Products.vue")
+        },
+        {
+            path: "/product/:id",
+            name: "product",
+            component: () =>
+                import ("./views/Product.vue")
         }
     ]
 });
