@@ -34,7 +34,7 @@
                 </b-card>
             </b-col>
         </b-row>
-    
+
     <ui-modal ref="createProduct" title="Nuevo Repuesto">
         <ui-alert @dismiss="error_alert = false" type="error" v-show="error_alert">
           {{error}}
@@ -51,6 +51,12 @@
             ></ui-textbox>
         <ui-textbox label="Dirección" v-model="location"></ui-textbox>
         <ui-textbox label="Precio" type="number" v-model="price"></ui-textbox>
+        
+        <label for="cats">Categoría</label>
+        <select v-model="category" id="cats" class="form-control category">
+            <option v-for="cat in categories" :value="cat._id">{{cat.name}}</option>
+        </select>
+
         <ui-switch v-model="is_active">
             Producto Activo
         </ui-switch>
@@ -76,10 +82,14 @@ export default {
             error: "",
             error_alert: false,
             success: false,
-            msg_success: ""
+            msg_success: "",
+            category: "",
+            categories: ""
         }
     },
     mounted(){
+        this.categories = JSON.parse(localStorage.getItem("categories"));
+        this.category = this.categories[0]._id;
         var vm = this;
         this.axios.get(process.env.VUE_APP_PRODUCT,
             {
@@ -121,7 +131,8 @@ export default {
                 description: this.description,
                 location: this.location,
                 price: this.price,
-                is_active: this.is_active
+                is_active: this.is_active,
+                category_id: this.category
             }
 
             var vm = this;
@@ -134,7 +145,7 @@ export default {
                 },
             })
             .then(function (response) {
-
+                console.log(response);
                 if (response.data.success){
                     vm.msg_success = response.data.msg;
                     vm.success = true;

@@ -47,7 +47,7 @@ export default {
         .then(function(response){
             vm.product = response.data;
 
-            vm.axios.get(process.env.VUE_APP_USER+'/'+vm.product.user_id, 
+            vm.axios.get(process.env.VUE_APP_USER+'/'+vm.product.seller_id, 
             {
                 headers: {
                     "Content-Type"   : "application/json",

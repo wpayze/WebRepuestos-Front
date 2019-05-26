@@ -9,8 +9,13 @@
           <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav>
               <b-nav-form>
-                <b-form-input size="sm" class="mr-sm-2" placeholder="Buscar"></b-form-input>
-                <b-button size="sm" class="my-2 my-sm-0" type="submit">Buscar</b-button>
+                <b-form-input v-model="search_input" size="sm" placeholder="Buscar"></b-form-input>
+
+                <select v-model="category" class="form-control category">
+                  <option v-for="cat in categories" :value="cat._id">{{cat.name}}</option>
+                </select>
+
+                <b-button size="sm" class="my-2 my-sm-0" @click="search()">Buscar</b-button>
               </b-nav-form>
   
               <b-nav-item v-if="!user" to="/">Inicio</b-nav-item>
@@ -20,7 +25,6 @@
 
             <!-- Right aligned nav items -->
             <b-navbar-nav class="ml-auto">
-
               <img v-if="user" class="miniatura" src="https://pbs.twimg.com/profile_images/846659478120366082/K-kZVvT8_400x400.jpg" alt="">
               <b-nav-item-dropdown v-if="user" :text="user.first_name" right>
                 <b-dropdown-item :to="'/profile/'+user._id"><ui-icon icon="account_circle"></ui-icon> Perfil</b-dropdown-item>
@@ -54,19 +58,24 @@ export default {
   data: function(){
     return {
       user: {},
-      nombre: ""
+      categories: "",
+      category: "",
+      nombre: "",
+      categories: [],
+      search_input: ""
     }
   },
   beforeMount: function(){
     this.validation();
+    this.loadCategories();
   },
   beforeUpdate: function(){
     this.validation();
+    console.log('beforeU');
   },
   methods: {
     logout: function() {
-      localStorage.removeItem('user');
-      localStorage.removeItem('token');
+      localStorage.clear();
       router.push('/');
       location.reload();
     },
@@ -76,6 +85,30 @@ export default {
       }else{
         this.user = null;
       }
+    },
+    loadCategories: function(){
+      var vm = this;
+      this.axios.get(process.env.VUE_APP_CATEGORY,
+      {
+          headers: {
+              "Content-Type"   : "application/json",
+              "Authorization"  : localStorage.getItem('token')
+          }
+      })
+      .then(function (response) {
+        localStorage.setItem('categories', JSON.stringify(response.data));
+        vm.categories = response.data;
+        vm.category = vm.categories[0]._id;
+      })
+      .catch(function (error) {
+          console.log(error);
+      });
+    },
+    search: function(){
+      router.push('/');
+      router.push('search/'+this.search_input+'/'+this.category);
+      this.search_input = "";
+      location.reload();
     }
   }
 }
@@ -133,5 +166,9 @@ html,body {
 }
 .center{
   text-align: center;
+}
+.category{
+  margin-right: 10px;
+  height: calc(1.5em + 0.5rem + 2px)!important;
 }
 </style>

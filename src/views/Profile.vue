@@ -9,17 +9,20 @@
                     </b-col>
                     <b-col md="4">
                         <h2>{{user.first_name}} {{user.last_name}}</h2>
+                        <h4>({{user.company}})</h4>
                         <p>{{type}}</p>
                     </b-col>
                     <b-col class="center">
                         <h5>Miembro desde {{user.createdAt}}</h5>
+                        <h5>Telefono: {{user.phone}}</h5>
+                        <h5>Correo: {{user.email}}</h5>
                     </b-col>
                 </b-row>
             </b-col>
         </b-row>
     </b-container>
     <hr>
-    <b-container>
+    <b-container v-if="this.user.type == 2">
         <h1>Productos de {{user.first_name}}</h1>
         <b-row>
             <b-col sm="3" v-if="products" v-for="product in products">
@@ -76,11 +79,17 @@ export default {
                 case 2: vm.type="Vendedor";break;
                 case 3: vm.type="Técnico";break;
             }
+
+            //Si el usuario es vendedor cargamos sus productos.
+
+            if (vm.user.type == 2)
+            {
+                vm.getProducts();
+            }
         })
         .catch(function (error){
             console.log(error);
         });
-        this.getProducts();
     },
     methods: {
         getProducts: function(){

@@ -55,6 +55,18 @@ export default new Router({
             name: "product",
             component: () =>
                 import ("./views/Product.vue")
+        },
+        {
+            path: "/search/:name/:category_id",
+            name: "search",
+            component: () =>
+                import ("./views/Search.vue")
+        },
+        {
+            path: "/category_products/:category_id",
+            name: "category_products",
+            component: () =>
+                import ("./views/CategoryProducts.vue")
         }
     ]
 });

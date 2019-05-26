@@ -120,14 +120,13 @@ export default {
 <style scoped>
 /* eslint-disable */
 section{
-  background: #78afed;
+  background: url('../assets/background.png');
   min-height: 100vh;
 }
 
 .form {
   background: #fff;
-  width: 30%;
-  
+  width: 30%; 
 }
 
 </style>

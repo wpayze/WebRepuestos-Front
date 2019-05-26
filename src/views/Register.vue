@@ -171,7 +171,7 @@ export default {
 
 <style scoped>
 section{
-  background: #78afed;
+  background: url('../assets/background.png');
   min-height: 100vh;
 }
 

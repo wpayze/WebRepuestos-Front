@@ -1,6 +1,7 @@
 <template>
     <div id="app">
         <h1>Bienvenido {{user.first_name}} {{user.last_name}}</h1>
+        
     </div>
 </template>
 
