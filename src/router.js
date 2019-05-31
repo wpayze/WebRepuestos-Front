@@ -67,6 +67,12 @@ export default new Router({
             name: "category_products",
             component: () =>
                 import ("./views/CategoryProducts.vue")
+        },
+        {
+            path: "/itemList",
+            name: "itemList",
+            component: () =>
+                import ("./views/ItemList.vue")
         }
     ]
 });

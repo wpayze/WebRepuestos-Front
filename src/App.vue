@@ -29,7 +29,7 @@
               <b-nav-item-dropdown v-if="user" :text="user.first_name" right>
                 <b-dropdown-item :to="'/profile/'+user._id"><ui-icon icon="account_circle"></ui-icon> Perfil</b-dropdown-item>
 
-                <b-dropdown-item v-if="user.type == 1" to="/profile"><ui-icon icon="list_alt"></ui-icon> Lista de Repuestos</b-dropdown-item>
+                <b-dropdown-item v-if="user.type == 1" to="/itemList"><ui-icon icon="list_alt"></ui-icon> Lista de Repuestos</b-dropdown-item>
                 <b-dropdown-item v-if="user.type == 2" to="/products"><ui-icon icon="build"></ui-icon> Mis Repuestos</b-dropdown-item>
 
                 <b-dropdown-item @click="logout"><ui-icon icon="power_settings_new"></ui-icon> Cerrar Sesión</b-dropdown-item>
@@ -108,7 +108,6 @@ export default {
       router.push('/');
       router.push('search/'+this.search_input+'/'+this.category);
       this.search_input = "";
-      location.reload();
     }
   }
 }
@@ -170,5 +169,16 @@ html,body {
 .category{
   margin-right: 10px;
   height: calc(1.5em + 0.5rem + 2px)!important;
+}
+.card-title{
+    text-align: left;
+    font-size: 14px;
+}
+.card-text{
+    text-align: left;
+    font-size: 12px;
+}
+.price{
+    font-size:16px;
 }
 </style>

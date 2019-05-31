@@ -3,7 +3,7 @@
         <b-row>
             <b-col md="3" class="categories">
                   <b-nav vertical class="categorias">
-                    <b-nav-item v-for="cat in categories" :to="'/category_products/'+cat._id">{{cat.name}}</b-nav-item>
+                    <b-nav-item v-for="cat in categories" @click="reload" :to="'/category_products/'+cat._id">{{cat.name}}</b-nav-item>
                 </b-nav>
             </b-col>
             <b-col>
@@ -24,9 +24,7 @@
                             {{product.price}}
                             </b-card-text>
                             <router-link :to="'/product/'+product._id">
-                                <ui-button raised color="primary" size="small" type="secondary">
-                                    Repuesto
-                                </ui-button>
+                                <ui-icon-button color="primary" icon="remove_red_eye"></ui-icon-button>
                             </router-link>
                         </b-card>
                     </b-col>
@@ -61,7 +59,6 @@ export default {
                 }
             })
             .then(function (response) {
-                console.log(response);
                 if (response.data.length > 0){
                     vm.products = response.data;
                 }
@@ -69,6 +66,9 @@ export default {
             .catch(function (error) {
                 console.log(error);
             });
+        },
+        reload: function(){
+            location.reload();
         }
     }
 }

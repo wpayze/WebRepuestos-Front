@@ -23,13 +23,26 @@
                     >
                     <b-card-text>
                     {{product.description}}
-                    {{product.location}}
-                    {{product.price}}
+                    
+                    <b-row>
+                        <b-col class="location">
+                            {{product.location}}
+                            <br>
+                            {{product.quantity}} disponibles.
+                        </b-col>
+                        <b-col class="price">
+                            L. {{product.price}}
+                        </b-col>
+                    </b-row>
+                    
+                    
                     </b-card-text>
+
                     <router-link :to="'/product/'+product._id">
-                        <ui-button raised color="primary" size="small" type="secondary">
-                            Repuesto
-                        </ui-button>
+                        <ui-icon-button color="primary" icon="remove_red_eye"></ui-icon-button>
+                    </router-link>
+                    <router-link :to="'/product/'+product._id" style="margin-left: 5px;">
+                        <ui-icon-button color="primary" icon="edit"></ui-icon-button>
                     </router-link>
                 </b-card>
             </b-col>
@@ -50,16 +63,30 @@
                 v-model="description"
             ></ui-textbox>
         <ui-textbox label="Dirección" v-model="location"></ui-textbox>
-        <ui-textbox label="Precio" type="number" v-model="price"></ui-textbox>
-        
-        <label for="cats">Categoría</label>
-        <select v-model="category" id="cats" class="form-control category">
-            <option v-for="cat in categories" :value="cat._id">{{cat.name}}</option>
-        </select>
 
-        <ui-switch v-model="is_active">
-            Producto Activo
-        </ui-switch>
+        <b-row>
+            <b-col>
+                <ui-textbox label="Precio" type="number" v-model="price"></ui-textbox>
+            </b-col>
+            <b-col>
+                <label for="cats">Categoría</label>
+                <select v-model="category" id="cats" class="form-control category">
+                    <option v-for="cat in categories" :value="cat._id">{{cat.name}}</option>
+                </select>
+            </b-col>
+        </b-row>
+        
+        <b-row>
+            <b-col>
+                <ui-textbox label="Existencias" type="number" v-model="quantity"></ui-textbox>
+            </b-col>
+            <b-col>
+                <ui-switch v-model="is_active">
+                    Producto Activo
+                </ui-switch>
+            </b-col>
+        </b-row>
+        
         <ui-fileupload color="primary" name="foto_repuesto">Subir Imagen</ui-fileupload>
         <br>
         <ui-button color="primary" @click="checkForm()">Guardar Producto</ui-button>
@@ -84,7 +111,8 @@ export default {
             success: false,
             msg_success: "",
             category: "",
-            categories: ""
+            categories: "",
+            quantity: 1
         }
     },
     mounted(){
@@ -132,7 +160,8 @@ export default {
                 location: this.location,
                 price: this.price,
                 is_active: this.is_active,
-                category_id: this.category
+                category_id: this.category,
+                quantity: this.quantity
             }
 
             var vm = this;
@@ -191,12 +220,3 @@ export default {
 }
 </script>
 
-<style scoped>
-    .card-title{
-        text-align: left;
-    }
-    .card-text{
-        text-align: left;
-        font-size: 13px;
-    }
-</style>

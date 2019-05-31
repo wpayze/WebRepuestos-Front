@@ -24,9 +24,7 @@
                             {{product.price}}
                             </b-card-text>
                             <router-link :to="'/product/'+product._id">
-                                <ui-button raised color="primary" size="small" type="secondary">
-                                    Repuesto
-                                </ui-button>
+                                <ui-icon-button color="primary" icon="remove_red_eye"></ui-icon-button>
                             </router-link>
                         </b-card>
                     </b-col>
