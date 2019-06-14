@@ -1,8 +1,11 @@
 <template>
   <div id="app">
     <div id="showcase">
-      <!-- <h1>El repuesto que necesita</h1>
-      <h2>En poco tiempo</h2> -->
+      <div class="text">
+        <h1>REON - El repuesto que necesita</h1>
+      <h2>En poco tiempo</h2>
+      </div>
+      
     </div>
 
     <b-container>
@@ -44,6 +47,7 @@ export default {
   width: 100%;
   height: 50vh;
   background-image: url("../assets/showcase.jpg");
+  display: table;
 }
 
 .ui-icon{
@@ -62,6 +66,22 @@ export default {
   margin: 1em;
   padding:1em;
 }
+.vertical-center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+.text{
+  display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    color:#fff;
+    background: rgb(0,0,0,0.3)
+}
 
-
+.text h1{
+  font-size:40px;
+}
 </style>

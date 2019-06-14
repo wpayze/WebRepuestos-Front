@@ -5,7 +5,7 @@
             <b-col>
                 <b-row>
                     <b-col md="2">
-                        <img class="profile-pic" src="https://i14.ebayimg.com/03/u/000/77/39/1673_7.JPG?set_id=81" alt="">
+                        <!-- <img class="profile-pic" src="https://i14.ebayimg.com/03/u/000/77/39/1673_7.JPG?set_id=81" alt=""> -->
                     </b-col>
                     <b-col md="4">
                         <h2>{{user.first_name}} {{user.last_name}}</h2>
@@ -28,7 +28,7 @@
             <b-col sm="3" v-if="products" v-for="product in products">
                   <b-card
                     :title="product.name"
-                    img-src="https://picsum.photos/600/300/?image=25"
+                    :img-src="product.img"
                     img-alt="Image"
                     img-top
                     tag="article"
@@ -42,7 +42,7 @@
                     </b-card-text>
                     <router-link :to="'/product/'+product._id">
                         <ui-button raised color="primary" size="small" type="secondary">
-                            Repuesto
+                            Ver Repuesto
                         </ui-button>
                     </router-link>
                 </b-card>

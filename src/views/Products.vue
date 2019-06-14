@@ -14,7 +14,7 @@
             <b-col sm="3" v-if="products" v-for="product in products">
                   <b-card
                     :title="product.name"
-                    img-src="https://picsum.photos/600/300/?image=25"
+                    :img-src="product.img"
                     img-alt="Image"
                     img-top
                     tag="article"
@@ -80,14 +80,14 @@
             <b-col>
                 <ui-textbox label="Existencias" type="number" v-model="quantity"></ui-textbox>
             </b-col>
-            <b-col>
+            <!-- <b-col>
                 <ui-switch v-model="is_active">
                     Producto Activo
                 </ui-switch>
-            </b-col>
+            </b-col> -->
         </b-row>
         
-        <ui-fileupload color="primary" name="foto_repuesto">Subir Imagen</ui-fileupload>
+        <ui-fileupload @change="addImage"  color="primary" name="foto_repuesto">Subir Imagen</ui-fileupload>
         <br>
         <ui-button color="primary" @click="checkForm()">Guardar Producto</ui-button>
     </ui-modal>
@@ -112,7 +112,8 @@ export default {
             msg_success: "",
             category: "",
             categories: "",
-            quantity: 1
+            quantity: 1,
+            image: ""
         }
     },
     mounted(){
@@ -142,6 +143,9 @@ export default {
         closeModal(ref) {
             this.$refs[ref].close();
         },
+        addImage(event){
+            this.image = event[0];
+        },
         checkForm(){
             this.error="";
             this.error_alert = false;
@@ -159,13 +163,55 @@ export default {
                 description: this.description,
                 location: this.location,
                 price: this.price,
-                is_active: this.is_active,
+                is_active: 1,
                 category_id: this.category,
-                quantity: this.quantity
+                quantity: this.quantity,
+                img: ""
             }
-
-            var vm = this;
+            
+            let formData = new FormData();
+            formData.append('image', this.image);
             //Validacion superada
+            var vm = this;
+            this.axios.post(process.env.VUE_APP_UPLOAD_IMAGE, formData,
+            {
+                headers: {
+                "Content-Type"   : "application/json",
+                "Authorization"  : localStorage.getItem('token')
+                },
+            })
+            .then(function (response) {
+                
+                if (response.data.success){
+                    datos.img = process.env.VUE_APP_SERVER + 'images/' + response.data.url;
+                }
+
+                vm.addProduct(datos);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+        },
+        getProducts(){
+            var vm = this;
+            this.axios.get(process.env.VUE_APP_PRODUCT,
+            {
+                headers: {
+                    "Content-Type"   : "application/json",
+                    "Authorization"  : localStorage.getItem('token')
+                },
+            })
+            .then(function (response) {
+                vm.products = response.data;
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        },
+        addProduct(datos){
+            
+            var vm = this;
             this.axios.post(process.env.VUE_APP_PRODUCT, datos,
             {
                 headers: {
@@ -174,7 +220,7 @@ export default {
                 },
             })
             .then(function (response) {
-                console.log(response);
+                
                 if (response.data.success){
                     vm.msg_success = response.data.msg;
                     vm.success = true;
@@ -193,23 +239,6 @@ export default {
                     vm.error_alert = true;
                 }
                 
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-
-        },
-        getProducts(){
-            var vm = this;
-            this.axios.get(process.env.VUE_APP_PRODUCT,
-            {
-                headers: {
-                    "Content-Type"   : "application/json",
-                    "Authorization"  : localStorage.getItem('token')
-                },
-            })
-            .then(function (response) {
-                vm.products = response.data;
             })
             .catch(function (error) {
                 console.log(error);

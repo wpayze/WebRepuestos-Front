@@ -105,9 +105,13 @@ export default {
       });
     },
     search: function(){
-      router.push('/');
-      router.push('search/'+this.search_input+'/'+this.category);
-      this.search_input = "";
+      if (this.search_input.trim() != "")
+      {
+        router.push('/');
+        router.push('search/'+this.search_input+'/'+this.category);
+        this.search_input = "";
+      }
+      
     }
   }
 }
@@ -180,5 +184,8 @@ html,body {
 }
 .price{
     font-size:16px;
+}
+.hide{
+  display:none;
 }
 </style>

@@ -3,7 +3,7 @@
         <b-container>
             <b-row>
                 <b-col md="4">
-                    <img class="image" src="https://i.ebayimg.com/images/g/2sMAAOSw5FBc4tX0/s-l1600.jpg" alt>
+                    <img class="image" :src="product.img" alt>
                 </b-col>
                 <b-col class="content" md="5">
                     <h1>{{product.name}}</h1>
@@ -11,7 +11,7 @@
                     <p>{{product.description}}</p>
                     <h5 v-if="product.price">PRECIO: L. {{(product.price).toLocaleString()}}</h5>
                     <br>
-                     <ui-button icon="star" @click="showConfirm('addItemConfirm')" color="primary">Agregar a mi Lista</ui-button>
+                     <ui-button v-if="user.type == 1" icon="star" @click="showConfirm('addItemConfirm')" color="primary">Agregar a mi Lista</ui-button>
 
                     <ui-confirm
                     ref="addItemConfirm"
@@ -36,9 +36,6 @@
             </b-row>
         </b-container>
         <hr>
-        <b-container>
-            <h1>Más Productos de este vendedor</h1>
-        </b-container>
     </div>
 </template>
 
@@ -48,11 +45,14 @@ export default {
         return {
             product: "",
             seller: "" ,
-            modal_msg: ""
+            modal_msg: "",
+            user: ""
         }
     },
     mounted(){
         var vm = this;
+        this.user = JSON.parse(localStorage.getItem("user"));
+        console.log(this.user);
 
         this.axios.get(process.env.VUE_APP_PRODUCT+'/'+this.$route.params.id, 
         {
@@ -120,9 +120,6 @@ export default {
 };
 
 </script>
-
-<script src="<a class="vglnk" href="https://www.paypalobjects.com/api/checkout.js" rel="nofollow"><span>https</span><span>://</span><span>www</span><span>.</span><span>paypalobjects</span><span>.</span><span>com</span><span>/</span><span>api</span><span>/</span><span>checkout</span><span>.</span><span>js</span></a>"></script>
-
 
 <style scoped>
     .image{

@@ -11,7 +11,7 @@
                     <b-col sm="4" v-if="products" v-for="product in products">
                             <b-card
                             :title="product.name"
-                            img-src="https://picsum.photos/600/300/?image=25"
+                            :img-src="product.img"
                             img-alt="Image"
                             img-top
                             tag="article"

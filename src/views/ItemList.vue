@@ -7,7 +7,7 @@
                 <b-col sm="3" v-if="products" v-for="product in products">
                     <b-card
                         :title="product.name"
-                        img-src="https://picsum.photos/600/300/?image=25"
+                        :img-src="product.img"
                         img-alt="Image"
                         img-top
                         tag="article"
@@ -58,57 +58,22 @@
             </b-row>
             <hr>
             <h2>Total: L. {{total}}</h2>
-            <div id="paypal-button"></div>
-
+            <form action="http://localhost:3000/api/pay" method="POST" v-if="products.length > 0">
+                <input class="hide" type="text" name="amount" :value="totalUSD">
+                <input class="hide" type="text" name="quantity" :value="cantidad">
+                 <ui-button icon="credit_card">Pagar</ui-button>
+            </form>
         </b-container>
     </div>
 </template>
-<script src="https://www.paypalobjects.com/api/checkout.js"></script>
-<script>
-    paypal.Button.render({
-        // Configure environment
-        env: 'sandbox',
-        client: {
-            sandbox: 'demo_sandbox_client_id',
-            production: 'demo_production_client_id'
-        },
-        // Customize button (optional)
-        locale: 'en_US',
-        style: {
-            size: 'small',
-            color: 'gold',
-            shape: 'pill',
-        },
 
-        // Enable Pay Now checkout flow (optional)
-        commit: true,
-
-        // Set up a payment
-        payment: function(data, actions) {
-            return actions.payment.create({
-                transactions: [{
-                    amount: {
-                        total: '0.01',
-                        currency: 'USD'
-                    }
-                }]
-            });
-        },
-        // Execute the payment
-        onAuthorize: function(data, actions) {
-            return actions.payment.execute().then(function() {
-                // Show a confirmation message to the buyer
-                window.alert('Thank you for your purchase!');
-            });
-        }
-    }, '#paypal-button');
-</script>
 <script>
 export default {
     data: function(){
         return {
             products: "",
             total: 0,
+            totalUSD: 0,
             product_to_delete: "",
             modal_msg: ""
         }
@@ -164,6 +129,7 @@ export default {
                         response.data.forEach(product => {
                             vm.total += product.price;
                         });
+                        vm.totalUSD = (vm.total / 24.5).toFixed(2);
                     }
                 })
                 .catch(function (error) {

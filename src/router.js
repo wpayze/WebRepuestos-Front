@@ -73,6 +73,12 @@ export default new Router({
             name: "itemList",
             component: () =>
                 import ("./views/ItemList.vue")
+        },
+        {
+            path: "/success",
+            name: "success",
+            component: () =>
+                import ("./views/Success.vue")
         }
     ]
 });
