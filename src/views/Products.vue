@@ -41,9 +41,9 @@
                     <router-link :to="'/product/'+product._id">
                         <ui-icon-button color="primary" icon="remove_red_eye"></ui-icon-button>
                     </router-link>
-                    <router-link :to="'/product/'+product._id" style="margin-left: 5px;">
+                    <!-- <router-link :to="'/product/'+product._id" style="margin-left: 5px;">
                         <ui-icon-button color="primary" icon="edit"></ui-icon-button>
-                    </router-link>
+                    </router-link> -->
                 </b-card>
             </b-col>
         </b-row>
@@ -91,7 +91,7 @@
         <br>
         <ui-button color="primary" @click="checkForm()">Guardar Producto</ui-button>
     </ui-modal>
-    
+
     </div>
 </template>
 

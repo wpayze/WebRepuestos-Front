@@ -9,11 +9,12 @@
           <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav>
               <b-nav-form>
-                <b-form-input v-model="search_input" size="sm" placeholder="Buscar"></b-form-input>
 
-                <select v-model="category" class="form-control category">
+                <select v-model="category" class="category">
                   <option v-for="cat in categories" :value="cat._id">{{cat.name}}</option>
                 </select>
+
+                <b-form-input v-model="search_input" size="sm" placeholder="Buscar"></b-form-input>
 
                 <b-button size="sm" class="my-2 my-sm-0" @click="search()">Buscar</b-button>
               </b-nav-form>
@@ -171,8 +172,8 @@ html,body {
   text-align: center;
 }
 .category{
-  margin-right: 10px;
   height: calc(1.5em + 0.5rem + 2px)!important;
+  
 }
 .card-title{
     text-align: left;

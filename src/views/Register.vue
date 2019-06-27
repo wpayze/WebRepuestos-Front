@@ -77,6 +77,12 @@
                     </b-col>
                 </b-row>
                 <br>
+                <b-row>
+                    <b-col md="2">
+                        <ui-checkbox v-model="terminos"></ui-checkbox>
+                    </b-col>
+                    <b-col md="10">Acepto los <router-link to="terminos" target="_blank">terminos y condiciones</router-link></b-col>
+                </b-row>
                 <ui-button color="primary" buttonType="submit">Crear Cuenta</ui-button>
                 <!-- <p class="control">
                     <a class="forgot-link" >Forgot Password</a>
@@ -118,7 +124,8 @@ export default {
                 }
             ],
             error_alert: false,
-            error: ""
+            error: "",
+            terminos: ""
         }
     },
     methods: {
@@ -126,7 +133,10 @@ export default {
         e.preventDefault();
         
         this.error = "";
-        if (!this.email || !this.password || !this.first_name || !this.last_name) {
+        if (!this.terminos){
+            this.error = "Por favor aceptar los terminos y condiciones.";
+        }
+        else if (!this.email || !this.password || !this.first_name || !this.last_name) {
             this.error = "Por favor completar los campos requeridos.";
         } else if (!this.validEmail(this.email)) {
             this.error = 'Por favor ingresar un email válido.';

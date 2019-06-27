@@ -16,7 +16,7 @@
                     <b-nav-item v-for="cat in categories" :to="'/category_products/'+cat._id">{{cat.name}}</b-nav-item>
                 </b-nav>
             </b-col>
-            <b-col sm="3" v-if="products && index <= 3" v-for="(product,index) in products">
+            <b-col sm="3" v-if="products && index <= 2" v-for="(product,index) in products">
                     <b-card
                         :title="product.name"
                         :img-src="product.img"
