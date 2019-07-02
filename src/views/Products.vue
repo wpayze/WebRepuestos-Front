@@ -6,7 +6,7 @@
             </ui-alert>
             
             <div class="col-md-6"><h1>Mis Productos</h1></div>
-            <div class="col-md-6"><ui-button color="primary" @click="openModal('createProduct')" icon="add">Agregar</ui-button></div>
+            <div class="col-md-6"><ui-button color="primary" @click="erase();openModal('createProduct');" icon="add">Agregar</ui-button></div>
         </div>
         <hr>
 
@@ -41,6 +41,9 @@
                     <router-link :to="'/product/'+product._id">
                         <ui-icon-button color="primary" icon="remove_red_eye"></ui-icon-button>
                     </router-link>
+                    
+                    <ui-icon-button @click="updateForm(product._id)" color="orange" icon="edit" style="margin-left:2px;"></ui-icon-button>
+                    <ui-icon-button @click="showConfirm('eraseConfirm'); product_to_delete=product._id" color="red" icon="delete"  style="margin-left:2px;"></ui-icon-button>
                     <!-- <router-link :to="'/product/'+product._id" style="margin-left: 5px;">
                         <ui-icon-button color="primary" icon="edit"></ui-icon-button>
                     </router-link> -->
@@ -89,8 +92,64 @@
         
         <ui-fileupload @change="addImage"  color="primary" name="foto_repuesto">Subir Imagen</ui-fileupload>
         <br>
-        <ui-button color="primary" @click="checkForm()">Guardar Producto</ui-button>
+        <ui-button color="primary" @click="checkForm('create')">Guardar Producto</ui-button>
     </ui-modal>
+
+    <ui-modal ref="editProduct" title="Editar Repuesto">
+        <!-- <ui-alert @dismiss="error_alert = false" type="error" v-show="error_alert">
+          {{error}}
+        </ui-alert> -->
+
+        <ui-textbox label="Nombre" v-model="name"></ui-textbox>
+        <ui-textbox
+                enforce-maxlength
+                help="Máximo 256 carácteres"
+                label="Descripción"
+                :multi-line="true"
+                :maxlength="256"
+                v-model="description"
+            ></ui-textbox>
+        <ui-textbox label="Dirección" v-model="location"></ui-textbox>
+
+        <b-row>
+            <b-col>
+                <ui-textbox label="Precio" type="number" v-model="price"></ui-textbox>
+            </b-col>
+            <b-col>
+                <label for="cats">Categoría</label>
+                <select v-model="category" id="cats" class="form-control category">
+                    <option v-for="cat in categories" :value="cat._id">{{cat.name}}</option>
+                </select>
+            </b-col>
+        </b-row>
+        
+        <b-row>
+            <b-col>
+                <ui-textbox label="Existencias" type="number" v-model="quantity"></ui-textbox>
+            </b-col>
+            <!-- <b-col>
+                <ui-switch v-model="is_active">
+                    Producto Activo
+                </ui-switch>
+            </b-col> -->
+        </b-row>
+        
+        <ui-fileupload @change="addImage"  color="primary" name="foto_repuesto">Subir Imagen</ui-fileupload>
+        <br>
+        <ui-button color="primary" @click="checkForm('update')">Guardar Producto</ui-button>
+    </ui-modal>
+
+    <ui-confirm
+    ref="eraseConfirm"
+    title="Eliminar Repuesto"
+    @confirm="eraseItem"
+    confirm-button-icon="delete"
+    confirm-button-text="Eliminar"
+    deny-button-text="Cancelar"
+    type="danger"
+    >
+        ¿Seguro que desea eliminar el repuesto?
+    </ui-confirm>
 
     </div>
 </template>
@@ -113,7 +172,9 @@ export default {
             category: "",
             categories: "",
             quantity: 1,
-            image: ""
+            image: "",
+            id_product_edit: "",
+            product_to_delete: ""
         }
     },
     mounted(){
@@ -143,10 +204,20 @@ export default {
         closeModal(ref) {
             this.$refs[ref].close();
         },
+        showConfirm(ref) {
+        this.$refs[ref].open();
+        },
         addImage(event){
             this.image = event[0];
         },
-        checkForm(){
+        erase(){
+            this.name = "";
+            this.description = "";
+            this.location = "";
+            this.price = "";
+            this.is_active = false;
+        },
+        checkForm(type){
             this.error="";
             this.error_alert = false;
 
@@ -172,25 +243,36 @@ export default {
             let formData = new FormData();
             formData.append('image', this.image);
             //Validacion superada
-            var vm = this;
-            this.axios.post(process.env.VUE_APP_UPLOAD_IMAGE, formData,
-            {
-                headers: {
-                "Content-Type"   : "application/json",
-                "Authorization"  : localStorage.getItem('token')
-                },
-            })
-            .then(function (response) {
-                
-                if (response.data.success){
-                    datos.img = process.env.VUE_APP_SERVER + 'images/' + response.data.url;
-                }
 
-                vm.addProduct(datos);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+            if (type == "create"){
+                if (this.image){
+                    var vm = this;
+                    this.axios.post(process.env.VUE_APP_UPLOAD_IMAGE, formData,
+                    {
+                        headers: {
+                        "Content-Type"   : "application/json",
+                        "Authorization"  : localStorage.getItem('token')
+                        },
+                    })
+                    .then(function (response) {
+                        
+                        if (response.data.success){
+                            datos.img = process.env.VUE_APP_SERVER + 'images/' + response.data.url;
+                        }
+
+                        vm.addProduct(datos);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+                }else {
+                   this.addProduct(datos); 
+                }
+                
+            } else if (type == "update"){
+                this.update(datos);
+            }
+            
 
         },
         getProducts(){
@@ -234,6 +316,93 @@ export default {
                     
                     vm.closeModal('createProduct');
                     
+                }else{
+                    vm.error = response.data.msg;
+                    vm.error_alert = true;
+                }
+                
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        },
+        updateForm(id){
+            var vm = this;
+
+            this.axios.get(process.env.VUE_APP_PRODUCT+'/'+id, 
+            {
+                headers: {
+                    "Content-Type"   : "application/json",
+                    "Authorization"  : localStorage.getItem('token')
+                }
+            })
+            .then(function(response){
+                vm.name = response.data.name;
+                vm.description = response.data.description;
+                vm.location = response.data.location;
+                vm.price = response.data.price;
+                vm.category = response.data.category_id;
+                vm.id_product_edit = id;
+                vm.openModal('editProduct');
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        },
+        update(datos){
+            var vm = this;
+            this.axios.post(process.env.VUE_APP_PRODUCT + '/update/' + this.id_product_edit, 
+            datos,
+            {
+                headers: {
+                "Content-Type"   : "application/json",
+                "Authorization"  : localStorage.getItem('token')
+                },
+            })
+            .then(function (response) {
+                if (response.data.success){
+                    vm.msg_success = response.data.msg;
+                    vm.success = true;
+                    vm.getProducts();
+
+                    vm.name = "";
+                    vm.description = "";
+                    vm.location = "";
+                    vm.price = "";
+                    vm.is_active = false;
+                    
+                    vm.closeModal('editProduct');
+                    
+                }else{
+                    vm.error = response.data.msg;
+                    vm.error_alert = true;
+                }
+                
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        },
+        eraseItem(){
+            var vm = this;
+            this.axios.delete(process.env.VUE_APP_PRODUCT + '/' + this.product_to_delete, 
+            {
+                headers: {
+                "Content-Type"   : "application/json",
+                "Authorization"  : localStorage.getItem('token')
+                },
+            })
+            .then(function (response) {
+                if (response.data.success){
+                    vm.msg_success = response.data.msg;
+                    vm.success = true;
+                    vm.getProducts();
+
+                    vm.name = "";
+                    vm.description = "";
+                    vm.location = "";
+                    vm.price = "";
+                    vm.is_active = false;
                 }else{
                     vm.error = response.data.msg;
                     vm.error_alert = true;

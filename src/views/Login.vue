@@ -38,9 +38,9 @@
             <p class="control">
               <ui-button color="primary" buttonType="submit">Ingresar</ui-button>
             </p>
-            <!-- <p class="control">
-              <a class="forgot-link" >Forgot Password</a>
-            </p> -->
+            <p class="control">
+              ¿No tienes cuenta? <router-link class="forgot-link" to="/register">Regístrate</router-link>
+            </p>
           </div>
 
         </form>

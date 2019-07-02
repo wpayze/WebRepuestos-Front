@@ -11,13 +11,19 @@
                     <p>{{product.description}}</p>
                     <h5 v-if="product.price">PRECIO: L. {{(product.price).toLocaleString()}}</h5>
                     <br>
-                    <ui-button v-if="user.type == 1" icon="star" @click="showConfirm('addItemConfirm')" color="primary">
-                        Agregar a mi Lista
-                    </ui-button>
-                    <ui-button style="margin-left:10px;" v-if="user.type == 1" icon="add_comment" @click="openModal('createComment')" color="primary">
-                        Agregar Comentario
-                    </ui-button>
 
+                    <div v-if="user">
+                        <ui-button v-if="user.type == 1" icon="star" @click="showConfirm('addItemConfirm')" color="primary">
+                            Agregar a mi Lista
+                        </ui-button>
+                        <ui-button style="margin-left:10px;" v-if="user.type == 1" icon="add_comment" @click="openModal('createComment')" color="primary">
+                            Agregar Comentario
+                        </ui-button>
+                    </div>
+                    <div v-else>
+                        <p>Para agregar al carrito <router-link to="/login">Inicie Sesión</router-link></p>
+                    </div>
+                
                     <ui-confirm
                     ref="addItemConfirm"
                     title="Agregar Repuesto"

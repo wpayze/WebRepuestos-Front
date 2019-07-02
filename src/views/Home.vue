@@ -2,23 +2,23 @@
   <div id="app">
     <div id="showcase">
       <div class="text">
-        <h1>REON - El repuesto que necesita</h1>
-      <h2>En poco tiempo</h2>
+        <h1 class="wow bounceIn">El repuesto que necesitas</h1>
+        <h2 class="wow bounceIn">En poco tiempo</h2>
       </div>
       
     </div>
 
     <b-container>
-      <b-row class="features">
+      <b-row class="features center wow fadeInUp">
         <b-col class="feature">
           <ui-icon icon="schedule"></ui-icon>
-          <h2>Ahorre tiempo</h2>
-          <p>Navegue entre cientos de repuestos hasta encontrar el que usted necesita rápidamente.</p>
+          <h2>Ahorra tiempo</h2>
+          <p>Navegua entre cientos de repuestos hasta encontrar el que necesitas, rápidamente.</p>
         </b-col>
         <b-col class="feature">
           <ui-icon icon="verified_user"></ui-icon>
           <h2>Plataforma Segura</h2>
-          <p>Descubra vendedores y técnicos certificados para dar solución a sus reparaciones.</p>
+          <p>Descubre vendedores y técnicos certificados para dar solución a tus reparaciones.</p>
         </b-col>
         <b-col class="feature">
           <ui-icon icon="desktop_mac"></ui-icon>

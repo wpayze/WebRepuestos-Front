@@ -3,20 +3,20 @@
 
     <div>
       <b-navbar toggleable="lg" type="dark" variant="primary">
-        <b-navbar-brand to="/">Reon</b-navbar-brand>
+        <b-navbar-brand to="/">REON</b-navbar-brand>
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
           <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav>
               <b-nav-form>
 
-                <select v-model="category" class="category">
+                <select v-model="category" class="category form-control search-nav">
                   <option v-for="cat in categories" :value="cat._id">{{cat.name}}</option>
                 </select>
 
-                <b-form-input v-model="search_input" size="sm" placeholder="Buscar"></b-form-input>
+                <b-form-input v-model="search_input" class="search-nav" size="sm" placeholder="Buscar"></b-form-input>
 
-                <b-button size="sm" class="my-2 my-sm-0" @click="search()">Buscar</b-button>
+                <b-button size="sm" class="my-2 my-sm-0 boton-nav search-nav" @click="search()">Buscar</b-button>
               </b-nav-form>
   
               <b-nav-item v-if="!user" to="/">Inicio</b-nav-item>
@@ -26,7 +26,7 @@
 
             <!-- Right aligned nav items -->
             <b-navbar-nav class="ml-auto">
-              <img v-if="user" class="miniatura" src="https://pbs.twimg.com/profile_images/846659478120366082/K-kZVvT8_400x400.jpg" alt="">
+              <!-- <img v-if="user" class="miniatura" src="https://pbs.twimg.com/profile_images/846659478120366082/K-kZVvT8_400x400.jpg" alt=""> -->
               <b-nav-item-dropdown v-if="user" :text="user.first_name" right>
                 <b-dropdown-item :to="'/profile/'+user._id"><ui-icon icon="account_circle"></ui-icon> Perfil</b-dropdown-item>
 
@@ -36,8 +36,8 @@
                 <b-dropdown-item @click="logout"><ui-icon icon="power_settings_new"></ui-icon> Cerrar Sesión</b-dropdown-item>
               </b-nav-item-dropdown>
 
-              <b-button size="sm" v-if="!user" to="/register" class="my-2 my-sm-0">Registro</b-button>
-              <b-button size="sm" v-if="!user" to="/login" class="my-2 my-sm-0">Ingresar</b-button>
+              <b-button size="sm" v-if="!user" to="/register" class="my-2 my-sm-0 boton-nav">Registro</b-button>
+              <b-button size="sm" style="margin-left: 5px;" v-if="!user" to="/login" class="my-2 my-sm-0 boton-nav">Ingresar</b-button>
 
             </b-navbar-nav>
           </b-collapse>
@@ -111,6 +111,7 @@ export default {
         router.push('/');
         router.push('search/'+this.search_input+'/'+this.category);
         this.search_input = "";
+        setTimeout(function(){ location.reload() }, 10);
       }
       
     }
@@ -188,5 +189,24 @@ html,body {
 }
 .hide{
   display:none;
+}
+.boton-nav{
+  background:#344055!important;
+  border:none!important;
+  color:#fff;
+  margin-right: 10px;
+}
+.card-img-top{
+  max-width: 100%;
+  max-height: 100%;
+  
+  height: 215px;
+
+  object-fit: contain;
+}
+.search-nav{
+  height: 32px!important;
+  border-radius: 0px!important;
+  border:none!important;
 }
 </style>
