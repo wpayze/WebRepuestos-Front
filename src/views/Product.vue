@@ -106,6 +106,7 @@ export default {
             })
             .then(function(response){
                 vm.seller = response.data;
+                console.log(process.env.VUE_APP_USER+'/'+vm.product.seller_id);
             })
             .catch(function (error) {
                 console.log(error);

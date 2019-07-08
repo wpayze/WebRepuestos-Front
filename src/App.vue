@@ -19,8 +19,8 @@
                 <b-button size="sm" class="my-2 my-sm-0 boton-nav search-nav" @click="search()">Buscar</b-button>
               </b-nav-form>
   
-              <b-nav-item v-if="!user" to="/">Inicio</b-nav-item>
-              <b-nav-item v-else to="/dashboard">Inicio</b-nav-item>
+              <!-- <b-nav-item v-if="!user" to="/">Inicio</b-nav-item> -->
+              <b-nav-item to="/dashboard">Inicio</b-nav-item>
 
             </b-navbar-nav>
 
@@ -37,7 +37,7 @@
               </b-nav-item-dropdown>
 
               <b-button size="sm" v-if="!user" to="/register" class="my-2 my-sm-0 boton-nav">Registro</b-button>
-              <b-button size="sm" style="margin-left: 5px;" v-if="!user" to="/login" class="my-2 my-sm-0 boton-nav">Ingresar</b-button>
+              <b-button size="sm" v-if="!user" to="/login" class="my-2 my-sm-0 boton-nav">Ingresar</b-button>
 
             </b-navbar-nav>
           </b-collapse>
@@ -111,7 +111,7 @@ export default {
         router.push('/');
         router.push('search/'+this.search_input+'/'+this.category);
         this.search_input = "";
-        setTimeout(function(){ location.reload() }, 10);
+        setTimeout(function(){ location.reload() }, 100);
       }
       
     }

@@ -134,7 +134,7 @@
             </b-col> -->
         </b-row>
         
-        <ui-fileupload @change="addImage"  color="primary" name="foto_repuesto">Subir Imagen</ui-fileupload>
+        <ui-fileupload @change="addImage" color="primary" name="foto_repuesto">Subir Imagen</ui-fileupload>
         <br>
         <ui-button color="primary" @click="checkForm('update')">Guardar Producto</ui-button>
     </ui-modal>
@@ -174,14 +174,17 @@ export default {
             quantity: 1,
             image: "",
             id_product_edit: "",
-            product_to_delete: ""
+            product_to_delete: "",
+            user: ""
         }
     },
     mounted(){
         this.categories = JSON.parse(localStorage.getItem("categories"));
+        this.user = JSON.parse(localStorage.getItem("user"));
+
         this.category = this.categories[0]._id;
         var vm = this;
-        this.axios.get(process.env.VUE_APP_PRODUCT,
+        this.axios.get(process.env.VUE_APP_PRODUCTS + '/' + this.user._id,
             {
                 headers: {
                     "Content-Type"   : "application/json",
@@ -270,14 +273,37 @@ export default {
                 }
                 
             } else if (type == "update"){
-                this.update(datos);
+
+                if (this.image){
+                    var vm = this;
+                    this.axios.post(process.env.VUE_APP_UPLOAD_IMAGE, formData,
+                    {
+                        headers: {
+                        "Content-Type"   : "application/json",
+                        "Authorization"  : localStorage.getItem('token')
+                        },
+                    })
+                    .then(function (response) {
+                        
+                        if (response.data.success){
+                            datos.img = process.env.VUE_APP_SERVER + 'images/' + response.data.url;
+                        }
+
+                        vm.update(datos);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+                }else {
+                   this.update(datos);
+                }
             }
             
 
         },
         getProducts(){
             var vm = this;
-            this.axios.get(process.env.VUE_APP_PRODUCT,
+            this.axios.get(process.env.VUE_APP_PRODUCTS + '/' + this.user._id,
             {
                 headers: {
                     "Content-Type"   : "application/json",
@@ -313,6 +339,7 @@ export default {
                     vm.location = "";
                     vm.price = "";
                     vm.is_active = false;
+                    vm.image = false;
                     
                     vm.closeModal('createProduct');
                     
@@ -342,6 +369,7 @@ export default {
                 vm.location = response.data.location;
                 vm.price = response.data.price;
                 vm.category = response.data.category_id;
+                vm.quantity = response.data.quantity;
                 vm.id_product_edit = id;
                 vm.openModal('editProduct');
             })
@@ -370,6 +398,7 @@ export default {
                     vm.location = "";
                     vm.price = "";
                     vm.is_active = false;
+                    vm.image = false;
                     
                     vm.closeModal('editProduct');
                     

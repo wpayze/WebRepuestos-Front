@@ -85,6 +85,12 @@ export default new Router({
             name: "terminos",
             component: () =>
                 import ("./views/Terms.vue")
+        },
+        {
+            path: "/orders",
+            name: "orders",
+            component: () =>
+                import ("./views/Orders.vue")
         }
     ]
 });
