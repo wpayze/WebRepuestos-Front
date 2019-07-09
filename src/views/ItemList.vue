@@ -80,7 +80,7 @@
             </b-row>
             <hr>
             <h2>Total: L. {{total}}</h2>
-            <form action="http://localhost:3000/api/pay" method="POST" v-if="products.length > 0">
+            <form :action="api + 'pay'" method="POST" v-if="products.length > 0">
                 <input class="hide" type="text" name="amount" :value="totalUSD">
                 <input class="hide" type="text" name="quantity" value="1">
                 <input class="hide" type="text" name="sale_id" v-model="sale_id">
@@ -111,11 +111,13 @@ export default {
             product_to_delete: "",
             modal_msg: "",
             reduction: [],
-            sale_id: ""
+            sale_id: "",
+            api: ""
         }
     },
     mounted: function(){
         this.cargaInicial();
+        this.api = process.env.VUE_APP_API;
     },
     methods: {
         openModal(ref) {
