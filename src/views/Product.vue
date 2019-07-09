@@ -10,12 +10,15 @@
                     <hr>
                     <p>{{product.description}}</p>
                     <h5 v-if="product.price">PRECIO: L. {{(product.price).toLocaleString()}}</h5>
+                    <p>{{product.quantity}} Disponibles</p>
                     <br>
 
                     <div v-if="user">
-                        <ui-button v-if="user.type == 1" icon="star" @click="showConfirm('addItemConfirm')" color="primary">
+                        <ui-button v-show="product.quantity > 0" v-if="user.type == 1" icon="star" @click="showConfirm('addItemConfirm')" color="primary">
                             Agregar a mi Lista
                         </ui-button>
+                        <p v-show="product.quantity <= 0">Producto Fuera de Stock</p>
+                        
                         <ui-button style="margin-left:10px;" v-if="user.type == 1" icon="add_comment" @click="openModal('createComment')" color="primary">
                             Agregar Comentario
                         </ui-button>

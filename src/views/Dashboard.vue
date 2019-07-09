@@ -9,8 +9,16 @@
             </slide>
             <hooper-navigation slot="hooper-addons"></hooper-navigation>
         </hooper> 
-
         <b-row>
+            <b-col md="3">
+
+            </b-col>
+            <b-col md="9">
+                <h2>Productos Destacados</h2>
+            </b-col>
+        </b-row>
+        
+        <b-row> 
             <b-col md="3" class="categories">
                   <b-nav vertical class="categorias">
                     <b-nav-item v-for="cat in categories" :to="'/category_products/'+cat._id">{{cat.name}}</b-nav-item>

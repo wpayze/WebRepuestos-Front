@@ -44,10 +44,10 @@
                                         <label style="font-size:12px;">Cantidad</label>
                                     </b-col>
                                     <b-col md="8">
-                                        <input v-model="reduction[prod._id]" min="1" :max="prod.quantity" type="number" class="form-control" style="height: 30px;margin-bottom: 5px;">
+                                        <input @change="updateTotal()" v-model="prod.qty_sale" min="1" :max="prod.quantity" type="number" class="form-control" style="height: 30px;margin-bottom: 5px;">
                                     </b-col>
                                 </b-row>
-           
+
                                 <router-link :to="'/product/'+prod._id">
                                     <ui-icon-button color="primary" icon="remove_red_eye"></ui-icon-button>
                                 </router-link>
@@ -156,7 +156,7 @@ export default {
             {
                 "list" : this.products,
                 "amount" : this.total,
-                "reduction" : {...this.reduction}
+                "reduction" : {}
             },
             {
                 headers: {
@@ -198,6 +198,14 @@ export default {
                     console.log(error);
                 });
         },
+        updateTotal(){
+            this.total=0;
+            this.products.forEach(product => {
+                product.products.forEach(product2 => {
+                    this.total += product2.price * product2.qty_sale;
+                });
+            });
+        },
         cargaInicial(){
             var vm = this;
             this.axios.get(process.env.VUE_APP_API + 'getList',
@@ -211,6 +219,7 @@ export default {
                     if (response.data.length > 0){
                         vm.products = response.data;
                         vm.total = 0;
+
                         response.data.forEach(product => {
                             product.products.forEach(product2 => {
                                 vm.total += product2.price;
@@ -218,12 +227,12 @@ export default {
                         });
                         vm.totalUSD = (vm.total / 24.5).toFixed(2);
 
-                        response.data.forEach(item => {
+                        /*response.data.forEach(item => {
                             item.products.forEach(it => {
                                 var string = it._id.toString();
                                 vm.reduction[string] = 1;
                             });
-                        });
+                        });*/
 
                     } else {
                         vm.products = [];
@@ -235,5 +244,6 @@ export default {
                 });
         }
     }
+
 };
 </script>

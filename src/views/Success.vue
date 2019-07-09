@@ -37,6 +37,29 @@ export default {
         url.searchParams.get("paymentId") ? this.id_compra = url.searchParams.get("paymentId") : this.id_compra = "0" ;
         url.searchParams.get("order") ? this.id_orden = url.searchParams.get("order") : this.id_compra = "0" ;
 
+        this.axios.get(process.env.VUE_APP_SALE + '/' + this.id_orden,
+        {
+            headers: {
+            "Content-Type"   : "application/json",
+            "Authorization"  : localStorage.getItem('token')
+            }
+        }).then(({data: response})=>{
+            response.list.forEach(detail => {
+                detail.products.forEach(product => {
+                   this.axios.get(process.env.VUE_APP_PRODUCT + '/' + product._id + '/' + product.qty_sale,
+                    {
+                        headers: {
+                        "Content-Type"   : "application/json",
+                        "Authorization"  : localStorage.getItem('token')
+                        }
+                    });
+                });
+            });
+        })
+        .catch(function (error) {
+            console.log(error);
+        });;
+
         this.axios.get(process.env.VUE_APP_SALE + '/activate/'+this.id_orden,
         {
             headers: {

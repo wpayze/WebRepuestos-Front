@@ -91,6 +91,12 @@ export default new Router({
             name: "orders",
             component: () =>
                 import ("./views/Orders.vue")
+        },
+        {
+            path: "/invoice/:id",
+            name: "invoice",
+            component: () =>
+                import ("./views/Invoice.vue")
         }
     ]
 });
