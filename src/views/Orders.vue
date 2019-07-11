@@ -1,20 +1,24 @@
 <template>
     <div id="app">
         <b-container class="padding">
-            <h1>Mis Órdenes</h1>
+            <h1 v-if="user.type == 1">Mis Órdenes</h1>
+            <h1 v-if="user.type == 2">Mis Ventas</h1>
             <hr>
             <b-row>
                 <b-col md="12" v-for="order in orders" class="orden">
                     <b-row>
                         <b-col>
                             <p>ID Orden: {{order._id}}</p>
-                            <p>Total: L. {{order.amount.toFixed(2)}}</p>
+                            <p v-if="user.type == 1">Total: L. {{order.amount.toFixed(2)}}</p>
+                            <p v-if="user.type == 2">Comprador: <router-link :to="'/profile/'+order.user_id._id">{{order.user_id.first_name}} {{order.user_id.last_name}}</router-link></p>
+                           
                             <p>Creada el: {{order.createdAt}}</p>
                         </b-col>
                         <b-col>
                             <router-link :to="'/invoice/'+order._id">
                                 <ui-button color="primary" icon="print">Factura</ui-button>
-                            </router-link>
+                            </router-link><br>
+                            Factura No. {{order.number}}
                         </b-col>
                     </b-row>
                     
@@ -49,11 +53,13 @@
 export default {
     data: function(){
         return {
-            orders: []
+            orders: [],
+            user: ""
         }
     },
     mounted: function(){
         this.cargaInicial();
+        this.user = JSON.parse(localStorage.getItem("user"));
     },
     methods: {
         cargaInicial() {
@@ -69,6 +75,10 @@ export default {
                 if (response.data.length > 0){
                     vm.orders = response.data;
                     vm.orders = vm.orders.reverse();
+                    
+                    vm.orders.forEach(order => {
+                        order.createdAt = new Date(order.createdAt).toDateString();
+                    });
                 } else {
                     vm.orders = [];
                 }

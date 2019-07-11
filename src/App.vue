@@ -32,6 +32,7 @@
 
                 <b-dropdown-item v-if="user.type == 1" to="/itemList"><ui-icon icon="list_alt"></ui-icon> Lista de Repuestos</b-dropdown-item>
                 <b-dropdown-item v-if="user.type == 1" to="/orders"><ui-icon icon="reorder"></ui-icon> Órdenes</b-dropdown-item>
+                <b-dropdown-item v-if="user.type == 2" to="/orders"><ui-icon icon="reorder"></ui-icon> Ventas</b-dropdown-item>
                 <b-dropdown-item v-if="user.type == 2" to="/products"><ui-icon icon="build"></ui-icon> Mis Repuestos</b-dropdown-item>
 
                 <b-dropdown-item @click="logout"><ui-icon icon="power_settings_new"></ui-icon> Cerrar Sesión</b-dropdown-item>

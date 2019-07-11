@@ -16,7 +16,7 @@
                             </td>
                             
                             <td>
-                                Factura #: 123<br>
+                                Factura #: {{order.number}}<br>
                                 Creada: {{date}}<br>
                                 Vence: {{date}}
                             </td>
@@ -107,7 +107,7 @@
                             </td>
                         </tr>
                         
-                        <tr class="total">
+                        <tr v-if="user.type == 1" class="total">
                             <td></td>
                             <td></td>
                             <td></td>
@@ -136,16 +136,18 @@ export default {
             order: [],
             date: "",
             products: [],
-            taxes: ""
+            taxes: "",
+            user: ""
         }
     },
     mounted: function(){
         this.cargaInicial();
+        this.user = JSON.parse(localStorage.getItem("user"));
     },
     methods: {
         cargaInicial() {
             var vm = this;
-            console.log(process.env.VUE_APP_SALE + '/' + this.$route.params.id);
+            console.log(localStorage.getItem('token'));
             this.axios.get(process.env.VUE_APP_SALE + '/' + this.$route.params.id,
             {
                 headers: {
@@ -154,6 +156,7 @@ export default {
                 }
             })
             .then(function (response) {
+
                 vm.order = response.data;
                 vm.date = new Date(vm.order.createdAt).toDateString();
 

@@ -49,6 +49,9 @@
                 <b-col md="3" class="center">
                     <h5>Vendedor: </h5>
                     <p>{{seller.first_name}} {{seller.last_name}}</p>
+                    <span id="star" class="rating" data-stars="5" :data-default-rating="user.rating"></span>
+                    <br>
+                    <br>
                     <router-link :to="'/profile/'+seller._id">
                         <ui-button color="primary">Ver Perfil</ui-button>
                     </router-link>
@@ -109,7 +112,9 @@ export default {
             })
             .then(function(response){
                 vm.seller = response.data;
-                console.log(process.env.VUE_APP_USER+'/'+vm.product.seller_id);
+                var star = new SimpleStarRating(document.getElementById('star'));
+                star.setDefaultRating(vm.seller.rating);
+                star.disable();
             })
             .catch(function (error) {
                 console.log(error);
@@ -118,6 +123,8 @@ export default {
         .catch(function (error) {
             console.log(error);
         });
+
+        
     },
     methods: {
         showConfirm(ref) {

@@ -3,7 +3,7 @@
         <b-row>
             <b-col md="3" class="categories">
                   <b-nav vertical class="categorias">
-                    <b-nav-item v-for="cat in categories" :to="'/category_products/'+cat._id">{{cat.name}}</b-nav-item>
+                    <b-nav-item class="cat-item" v-for="cat in categories" :to="'/category_products/'+cat._id">{{cat.name}}</b-nav-item>
                 </b-nav>
             </b-col>
             <b-col>
@@ -79,11 +79,18 @@ export default {
 
 <style scoped>
     .categorias{
-        background: #047AFC;
-        border-radius: 1em;
+        background: #344054;
     }
 
     .categorias li a{
         color: #fff;
+    }
+
+    .cat-item{
+        border: 1px #fff solid;
+        transition: 0.2s ease-in;
+    }
+    .cat-item:hover{
+        background: #047AFC;
     }
 </style>
