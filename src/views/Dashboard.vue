@@ -1,11 +1,18 @@
 <template>
     <b-container class="padding">
         <hooper style="height: 400px">
-            <slide style="text-align:center;">
-                <img src="https://img2.freepng.es/20180606/qi/kisspng-car-auto-repuestos-f1-c-a-logo-vehicle-calle-aranj-repuestos-5b17de991f46b2.1919347415282909691281.jpg" alt="">
-            </slide>
             <slide>
                 <img src="https://i.pinimg.com/originals/8c/fd/a5/8cfda53547fe9d32942be6c7ea5dce19.jpg" alt="">
+            </slide>
+            <slide style="text-align:center;">
+                <img src="http://www.italika.com.hn/ItalikaLAM/imgTemplate/Honduras/SLIDE/11.jpg" alt="">
+            </slide>
+            <slide style="text-align:center;">
+                <img src="https://cdn-az.allevents.in/banners/5e41bbb0-eab0-11e8-9aa1-3dda9c965bad-rimg-w720-h265-dce0e0e0-gmir.jpg" alt="">
+            </slide>
+            
+            <slide style="text-align:center;">
+                <img style="max-width:70%;" src="https://autorepuestos.hn/wp-content/uploads/2017/12/productos_web.jpg" alt="">
             </slide>
             <hooper-navigation slot="hooper-addons"></hooper-navigation>
         </hooper> 
@@ -13,7 +20,7 @@
             <b-col md="3">
 
             </b-col>
-            <b-col md="9">
+            <b-col md="9" style="margin-top: 5px;">
                 <h2>Productos Destacados</h2>
             </b-col>
         </b-row>

@@ -49,7 +49,7 @@
                 <b-col md="3" class="center">
                     <h5>Vendedor: </h5>
                     <p>{{seller.first_name}} {{seller.last_name}}</p>
-                    <span id="star" class="rating" data-stars="5" :data-default-rating="user.rating"></span>
+                    <span id="star" class="rating" data-stars="5" :data-default-rating="seller.rating"></span>
                     <br>
                     <br>
                     <router-link :to="'/profile/'+seller._id">

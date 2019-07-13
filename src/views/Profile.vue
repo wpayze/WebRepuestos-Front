@@ -107,12 +107,17 @@ export default {
 
                         let user_id = JSON.parse(localStorage.getItem("user"));
                         
-                        vm.user.rated.forEach(user_id_api => {
+                        if (user_id){
+                            vm.user.rated.forEach(user_id_api => {
+                            
+                                if (user_id_api == user_id._id){
+                                    vm.ya_voto = true;
+                                }
+                            });
+                        } else {
+                            vm.ya_voto = true;
+                        }
                         
-                            if (user_id_api == user_id._id){
-                                vm.ya_voto = true;
-                            }
-                        });
 
                     let user = JSON.parse(localStorage.getItem("user"));
                     if (user._id == vm.user._id){

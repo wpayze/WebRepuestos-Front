@@ -117,11 +117,11 @@ export default {
                 {
                     "name" : "Vendedor",
                     "value" : 2
-                },
-                {
-                    "name" : "Técnico",
-                    "value" : 3
                 }
+                // {
+                //     "name" : "Técnico",
+                //     "value" : 3
+                // }
             ],
             error_alert: false,
             error: "",
@@ -189,4 +189,10 @@ section{
   background: #fff;
   width: 45%;
 }
+@media(max-width:760px){
+.form{
+    width:100%;
+}
+}
+
 </style>

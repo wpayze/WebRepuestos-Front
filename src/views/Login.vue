@@ -129,5 +129,11 @@ section{
   width: 30%; 
 }
 
+@media(max-width:760px){
+.form{
+    width:100%;
+}
+}
+
 </style>
 
